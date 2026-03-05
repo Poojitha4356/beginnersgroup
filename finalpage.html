@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EmbraceRoom - Mental Health Micro Support</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* === Fundamental EmbraceRoom Styles === */
+.title {
+    font-style: bold;
+    font-family: 'Courier New', Courier, monospace;
+    color: lightcoral;
+    font-weight: 200;
+    font-size: 50px;
+}
+.imagefirst {
+    height: 20px;
+    display: flex;
+}
+.rightfirstpage {
+    display: flex;
+}
+.searchbox {
+    margin-left: 30px;
+    color: lightcoral;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 60px;
+    font-weight: bold;
+}
+.search {
+    font-size: 25px;
+    font-family: cursive;
+}
+.hashtag {
+    height: 20px;
+}
+h2{
+    margin-top: 70px;
+}
+.happy, .stressed, .sad, .anxious, .tired {
+    background-color: lightcoral;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    color: white;
+    font-family: cursive;
+}
+.selfasses, .moodcheck, .timemanagement, .motivation {
+    color: lightcoral;
+    font-size: 30px;
+}
+.q1, .q2, .q3, .q4, .q5 {
+    color: black;
+    font-size: 20px;
+}
+
+/* === MindEase Advanced Styles === */
+body{
+  font-family: Arial, sans-serif;
+  background:#eef6ff;
+  text-align:center;
+  padding:20px;
+}
+button{
+  padding:10px;
+  margin:5px;
+  border:none;
+  background:#3a6df0;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
+button:hover{
+  background:#274bb5;
+}
+textarea{
+  width:300px;
+  height:80px;
+}
+section{
+  margin-top:25px;
+  padding:18px;
+  background:white;
+  border-radius:12px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+}
+#sos{
+  background:#e74c3c;
+  font-size:18px;
+  padding:12px;
+}
+#breathing{
+  font-size:20px;
+  color:#3a6df0;
+  font-weight:bold;
+  margin-top:12px;
+}
+iframe{
+  margin-top:12px;
+  border-radius:8px;
+}
+pre{
+  text-align:left;
+  font-family:inherit;
+  background:#f0f8ff;
+  padding:10px;
+  border-radius:8px;
+}
+
+.selfreflection
+{
+   color: lightcoral;
+    font-size: 30px;
+}
+
+.anony,.support,.emergency,.proff,.peer
+{
+   color: lightcoral;
+    font-size: 30px;
+}
+
+/* Added Graph Container Style */
+.chart-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+</style>
+
+</head>
+<body>
+
+<p class="title">EmbraceRoom</p>
+<div class="rightfirstpage">
+    <div class="imagefirst">
+        <img src="DCluVL-Helplines.jpg" alt="imagefirst" height="450px" width="500px">
+    </div>
+    <div class="searchbox">
+        <p>"SMALL STEPS TOWARDS HEALING STILL COUNTS"</p>
+        <p class="hashtag"> #youarenotalone</p>
+        
+    </div>
+</div>
+
+<section>
+<h2 class="moodcheck">Mood Check</h2>
+<button class="happy" onclick="mood('happy')">😊 Happy</button>
+<button class="stressed" onclick="mood('stressed')">😫 Stressed</button>
+<button class="sad" onclick="mood('sad')">😢 Sad</button>
+<button class="anxious" onclick="mood('anxious')">😰 Anxious</button>
+<button class="tired" onclick="mood('tired')">😴 Tired</button>
+<p id="moodResult"></p>
+</section>
+
+<section>
+<h2 class="selfasses">Stress Self Assessment</h2>
+<p class="q1">1. Do you feel overwhelmed with studies?</p>
+<input type="radio" name="q1" value="1">Yes
+<input type="radio" name="q1" value="0">No
+<p class="q2">2. Do you sleep less due to stress?</p>
+<input type="radio" name="q2" value="1">Yes
+<input type="radio" name="q2" value="0">No
+<p class="q3">3. Do you feel anxious before exams?</p>
+<input type="radio" name="q3" value="1">Yes
+<input type="radio" name="q3" value="0">No
+<p class ="q4">4. Do you find it hard to relax?</p>
+<input type="radio" name="q4" value="1">Yes
+<input type="radio" name="q4" value="0">No
+<p class="q5">5. Do you feel mentally exhausted?</p>
+<input type="radio" name="q5" value="1">Yes
+<input type="radio" name="q5" value="0">No
+<br><br>
+<button onclick="checkStress()">Check Stress Level</button>
+<p id="stressResult"></p>
+</section>
+
+<section>
+<h2 class="timemanagement">Time Management Tips</h2>
+<button onclick="showTimeTips()">Show Tips</button>
+<p id="timeTips"></p>
+</section>
+
+<section>
+<h2 class="motivation">Motivation Message</h2>
+<button onclick="motivation()">Get Motivation</button>
+<p id="motivationText"></p>
+</section>
+
+<section>
+<h2 class="anony">Anonymous Support Board</h2>
+<textarea id="message" placeholder="Share your feelings anonymously"></textarea>
+<br><br>
+<button onclick="postMessage()">Post Message</button>
+<ul id="messages"></ul>
+</section>
+
+<section>
+<h2 class="selfreflection">Self Reflection Journal</h2>
+<textarea id="journalText" placeholder="Write your thoughts"></textarea>
+<br><br>
+<button onclick="saveJournal()">Save Journal</button>
+<ul id="journalList"></ul>
+</section>
+
+<section>
+  <h2 class="anony">Anonymous Username</h2>
+  <button onclick="generateName()">Generate Anonymous Nickname</button>
+  <p id="username"></p>
+</section>
+
+<section>
+  <h2 class="peer">Peer Connection</h2>
+  <button onclick="peerMatch()">Find Students Feeling Like You</button>
+  <pre id="peerResult"></pre>
+</section>
+
+<section>
+  <h2 class="emergency">Emergency Support - One Click</h2>
+  <button id="sos" onclick="activateSOS()">🚨 SOS INTERVENTION</button>
+  <div id="sosPanel"></div>
+  <p id="breathing"></p>
+</section>
+
+<section>
+  <h2 class="support">Support Resources & Wellness Content</h2>
+  <button onclick="showResources()">Show Recommended Resources</button>
+  <div id="resources"></div>
+</section>
+
+<section>
+  <h2 class="proff">Professional Therapy</h2>
+  <p>For deeper emotional support, access certified therapists (paid).</p>
+  <button onclick="therapy()">View Therapy Options</button>
+  <pre id="therapyResult"></pre>
+</section>
+
+<section>
+  <h2 class="moodcheck">Mood Tracking Journey</h2>
+  <div class="chart-container">
+    <canvas id="moodChart"></canvas>
+  </div>
+</section>
+
+<script>
+/* ================= Fundamental JS ================= */
+let currentMood = ""; // Global variable to store selected mood
+
+// Added Mood History Arrays
+let moodDataPoints = [];
+let moodLabels = [];
+
+function mood(type){
+currentMood = type; // Update current mood for peer matching
+let text="";
+let moodValue = 0; // For graph mapping
+
+if(type=="happy") { text="It’s wonderful that you’re feeling happy today. Take a moment to appreciate this feeling!"; moodValue = 5; }
+if(type=="stressed") { text="You’re doing your best. Take a moment to pause, breathe slowly, and relax your mind."; moodValue = 2; }
+if(type=="sad") { text="Feeling sad doesn’t mean you’re weak. Take a small break and talk to someone you trust."; moodValue = 1; }
+if(type=="anxious") { text="Try slowing your breathing, focus on the present moment, and remind yourself this feeling will pass."; moodValue = 2; }
+if(type=="tired") { text="It’s okay to feel tired. Take a short rest, breathe deeply, and recharge your mind."; moodValue = 3; }
+
+document.getElementById("moodResult").innerText=text;
+
+// Update Graph Data
+updateMoodGraph(type, moodValue);
+}
+
+function checkStress(){
+let score=0;
+let answers=document.querySelectorAll("input[type=radio]:checked");
+answers.forEach(a=>{ score+=parseInt(a.value); });
+let result="";
+if(score<=1) result="Low Stress: Maintain a balanced routine.";
+else if(score<=3) result="Moderate Stress: Try meditation or relaxation.";
+else result="High Stress: Consider talking to a counselor or mentor.";
+document.getElementById("stressResult").innerText=result;
+}
+
+function showTimeTips(){
+document.getElementById("timeTips").innerText=
+"• Set Clear Priorities\n• Create a Daily Schedule\n• Avoid Distractions\n• Break Tasks into Smaller Steps";
+}
+
+function motivation(){
+let quotes=[
+"You are stronger than you think.",
+"Small progress is still progress.",
+"Every day is a new opportunity.",
+"Do your best, not perfect.",
+"Challenges help you grow."
+];
+let random=quotes[Math.floor(Math.random()*quotes.length)];
+document.getElementById("motivationText").innerText=random;
+}
+
+function postMessage(){
+let msg=document.getElementById("message").value;
+if(msg=="") return;
+let li=document.createElement("li");
+li.textContent=msg;
+document.getElementById("messages").appendChild(li);
+document.getElementById("message").value="";
+}
+
+function saveJournal(){
+let entry=document.getElementById("journalText").value;
+if(entry=="") return;
+let li=document.createElement("li");
+li.textContent=entry;
+document.getElementById("journalList").appendChild(li);
+document.getElementById("journalText").value="";
+}
+
+/* ================= MindEase JS ================= */
+let username="";
+
+function generateName(){
+  let adj=["Calm","Bright","Silent","Kind","Gentle","Hopeful","Wise","Serene"];
+  let animal=["Panda","Tiger","Owl","Fox","Dolphin","Eagle","Deer","Heron"];
+  username = adj[Math.floor(Math.random()*adj.length)] + animal[Math.floor(Math.random()*animal.length)];
+  document.getElementById("username").innerText = "Your Anonymous Name: " + username;
+}
+
+function peerMatch(){
+  if(username==""){ document.getElementById("peerResult").innerText="👉 Generate your nickname first."; return; }
+  if(currentMood==""){ document.getElementById("peerResult").innerText="👉 Select your mood first."; return; }
+  let count = Math.floor(Math.random()*35)+5;
+  let peerNames=["CalmHeron","SilentFox","BrightEagle","HopefulPanda","KindOwl","GentleTiger"];
+  let messages=[
+    "I feel this too — stay strong!",
+    "Breathing helps me every time.",
+    "Even small breaks make a difference.",
+    "You’re not alone — keep going!",
+    "Mindfulness helps calm racing thoughts."
+  ];
+  let output=username+", you're not alone.\n\n"+count+" students also reported feeling "+currentMood+".\n\nCommunity Notes:\n";
+  for(let i=0;i<3;i++){
+    let name=peerNames[Math.floor(Math.random()*peerNames.length)];
+    let msg=messages[Math.floor(Math.random()*messages.length)];
+    output+="• "+name+": "+msg+"\n";
+  }
+  document.getElementById("peerResult").innerText=output;
+}
+
+function activateSOS(){
+document.getElementById("sosPanel").innerHTML=
+"<h3>You're Safe. Let's Calm Together.</h3>"+
+"<p><b>Grounding Exercise</b></p>"+
+"<p>5 things you see<br>4 things you feel<br>3 things you hear<br>2 things you smell<br>1 slow breath in and out</p>"+
+"<p><b>Emergency Helplines</b></p>"+
+"<p>📞 Kiran Mental Health: <a href='tel:18005990019'>1800-599-0019</a></p>"+
+"<p>📞 Snehi Foundation: <a href='tel:9582208181'>9582208181</a></p>"+
+"<p><b>Calming Video (Immediate Relief)</b></p>"+
+"<iframe width='300' height='170' src='https://www.youtube.com/embed/itZMMfj8l5g' title='Relaxation Exercise'></iframe>";
+beginBreathing();
+}
+
+function beginBreathing(){
+let steps=["Inhale slowly...","Hold gently...","Exhale fully..."];
+let i=0;
+setInterval(function(){ document.getElementById("breathing").innerText=steps[i]; i++; if(i>=steps.length) i=0; },3000);
+}
+
+function showResources(){
+document.getElementById("resources").innerHTML=
+"<h3>Wellness Videos & Self-Care Guides</h3>"+
+"<p>Mindfulness & Relaxation</p>"+
+"<iframe width='300' height='170' src='https://www.youtube.com/embed/MIr3RsUWrdo' title='Mindfulness Guide'></iframe><br><br>"+
+"<iframe width='300' height='170' src='https://www.youtube.com/embed/O-6f5wQXSu8' title='Guided Meditation'></iframe><br><br>"+
+"<p><b>Self-Help Articles</b></p>"+
+"<ul style='text-align:left; display:inline-block;'>"+
+"<li><a href='https://www.mentalhealth.org.uk/' target='_blank'>Mental Health Foundation</a></li>"+
+"<li><a href='https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health' target='_blank'>NIMH: Mental Health Tips</a></li>"+
+"<li><a href='https://www.psychologytoday.com/' target='_blank'>Psychology Today: Wellness</a></li>"+
+"</ul>"+
+"<p><b>Helplines for Support</b></p>"+
+"<p>📞 AASRA Foundation (24×7): +91 9820466726</p>"+
+"<p>📞 Snehi Helpline: +91 9582208181</p>";
+}
+
+function therapy(){
+document.getElementById("therapyResult").innerText=
+"Certified therapists available:\n\n"+
+"1. University Counseling Services\n"+
+"2. BetterHelp & Talkspace Platforms\n\n"+
+"💡 Estimated cost per session: ₹500 – ₹1500";
+}
+
+/* ================= Added Mood Graph Logic ================= */
+const ctx = document.getElementById('moodChart').getContext('2d');
+let moodChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: moodLabels,
+        datasets: [{
+            label: 'Mood Level (1: Sad to 5: Happy)',
+            data: moodDataPoints,
+            borderColor: 'lightcoral',
+            backgroundColor: 'rgba(240, 128, 128, 0.2)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 5,
+                ticks: { stepSize: 1 }
+            }
+        }
+    }
+});
+
+function updateMoodGraph(moodName, moodValue) {
+    let timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    moodLabels.push(timestamp);
+    moodDataPoints.push(moodValue);
+
+    // Keep only last 7 entries for clarity
+    if (moodLabels.length > 7) {
+        moodLabels.shift();
+        moodDataPoints.shift();
+    }
+    
+    moodChart.update();
+}
+</script>
+
+</body>
+</html>
